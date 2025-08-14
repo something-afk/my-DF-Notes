@@ -38,5 +38,9 @@ exiftool -DateTimeOriginal -ModifyDate -Software -Make -Model -GPSLatitude -GPSL
 # Hex header (PowerShell)
 Get-Content .\Forensics-image.png -Encoding Byte -TotalCount 32 | Format-Hex
 
-# SHA256 hash
-Get-FileHash Forensics-image.png -Algorithm SHA256
+# Strings (PowerShell)
+$bytes = [IO.File]::ReadAllBytes('.\Forensics-image.png')
+$text  = -join ([char[]]$bytes)
+[regex]::Matches($text,'[\x20-\x7E]{6,}') | % { $_.Value } | Select -First 40
+
+SHA256 Hash: EFECB358E1ADE19D08ACF1126B846971982FB8B3A82F67BDF7401A8972FD241A
